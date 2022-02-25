@@ -1,0 +1,117 @@
+-- ---
+-- Globals
+-- ---
+
+-- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+-- SET FOREIGN_KEY_CHECKS=0;
+
+-- ---
+-- Table 'user'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `user`;
+		
+CREATE TABLE `user` (
+  `user_id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
+  `username` VARCHAR(32) NOT NULL DEFAULT 'NULL',
+  `password` VARCHAR(16) NOT NULL DEFAULT 'NULL',
+  `email` INTEGER(350) NOT NULL DEFAULT NULL,
+  `firstname` VARCHAR(64) NOT NULL DEFAULT 'NULL',
+  `lastname` VARCHAR(64) NULL DEFAULT NULL,
+  `status` ENUM NOT NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+);
+
+-- ---
+-- Table 'note'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `note`;
+		
+CREATE TABLE `note` (
+  `note_id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
+  `note` VARCHAR(1000) NULL DEFAULT NULL,
+  `user_id` INTEGER NOT NULL DEFAULT NULL,
+  `date_added` DATETIME NOT NULL DEFAULT 'NULL',
+  `date_modified` INTEGER NOT NULL DEFAULT NULL,
+  `reminder` DATETIME NOT NULL DEFAULT 'NULL',
+  PRIMARY KEY (`note_id`)
+);
+
+-- ---
+-- Table 'session'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `session`;
+		
+CREATE TABLE `session` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `user_id` INTEGER NOT NULL DEFAULT NULL,
+  `token` VARCHAR(256) NOT NULL DEFAULT 'NULL',
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'user_log'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `user_log`;
+		
+CREATE TABLE `user_log` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
+  `user_id` INTEGER NULL DEFAULT NULL,
+  `user_activity` VARCHAR NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'role'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `role`;
+		
+CREATE TABLE `role` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `user_id` INTEGER NOT NULL DEFAULT NULL,
+  `role` ENUM NOT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Foreign Keys 
+-- ---
+
+ALTER TABLE `note` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
+ALTER TABLE `session` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
+ALTER TABLE `user_log` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
+ALTER TABLE `role` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
+
+-- ---
+-- Table Properties
+-- ---
+
+-- ALTER TABLE `user` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `note` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `session` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `user_log` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `role` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ---
+-- Test Data
+-- ---
+
+-- INSERT INTO `user` (`user_id`,`username`,`password`,`email`,`firstname`,`lastname`,`status`) VALUES
+-- ('','','','','','','');
+-- INSERT INTO `note` (`note_id`,`note`,`user_id`,`date_added`,`date_modified`,`reminder`) VALUES
+-- ('','','','','','');
+-- INSERT INTO `session` (`id`,`user_id`,`token`) VALUES
+-- ('','','');
+-- INSERT INTO `user_log` (`id`,`user_id`,`user_activity`) VALUES
+-- ('','','');
+-- INSERT INTO `role` (`id`,`user_id`,`role`) VALUES
+-- ('','','');
