@@ -10,8 +10,7 @@ itsdangerous==2.1.0
 Jinja2==3.0.3
 Mako==1.1.6
 MarkupSafe==2.1.0
-mysql==0.0.3
-mysqlclient==2.1.0
+migrate==0.3.8
 PyMySQL==1.0.2
 SQLAlchemy==1.4.31
 Werkzeug==2.0.3
