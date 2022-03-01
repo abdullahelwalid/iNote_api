@@ -1,117 +1,135 @@
--- ---
--- Globals
--- ---
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: https://ondras.zarovi.cz/sql/demo/?keyword=default -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
 
--- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
--- SET FOREIGN_KEY_CHECKS=0;
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
 
--- ---
--- Table 'user'
--- 
--- ---
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
 
-DROP TABLE IF EXISTS `user`;
-		
-CREATE TABLE `user` (
-  `user_id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `username` VARCHAR(32) NOT NULL DEFAULT 'NULL',
-  `password` VARCHAR(16) NOT NULL DEFAULT 'NULL',
-  `email` INTEGER(350) NOT NULL DEFAULT NULL,
-  `firstname` VARCHAR(64) NOT NULL DEFAULT 'NULL',
-  `lastname` VARCHAR(64) NULL DEFAULT NULL,
-  `status` ENUM NOT NULL DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-);
-
--- ---
--- Table 'note'
--- 
--- ---
-
-DROP TABLE IF EXISTS `note`;
-		
-CREATE TABLE `note` (
-  `note_id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `note` VARCHAR(1000) NULL DEFAULT NULL,
-  `user_id` INTEGER NOT NULL DEFAULT NULL,
-  `date_added` DATETIME NOT NULL DEFAULT 'NULL',
-  `date_modified` INTEGER NOT NULL DEFAULT NULL,
-  `reminder` DATETIME NOT NULL DEFAULT 'NULL',
-  PRIMARY KEY (`note_id`)
-);
-
--- ---
--- Table 'session'
--- 
--- ---
-
-DROP TABLE IF EXISTS `session`;
-		
-CREATE TABLE `session` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `user_id` INTEGER NOT NULL DEFAULT NULL,
-  `token` VARCHAR(256) NOT NULL DEFAULT 'NULL',
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'user_log'
--- 
--- ---
-
-DROP TABLE IF EXISTS `user_log`;
-		
-CREATE TABLE `user_log` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `user_id` INTEGER NULL DEFAULT NULL,
-  `user_activity` VARCHAR NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'role'
--- 
--- ---
-
-DROP TABLE IF EXISTS `role`;
-		
-CREATE TABLE `role` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `user_id` INTEGER NOT NULL DEFAULT NULL,
-  `role` ENUM NOT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Foreign Keys 
--- ---
-
-ALTER TABLE `note` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
-ALTER TABLE `session` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
-ALTER TABLE `user_log` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
-ALTER TABLE `role` ADD FOREIGN KEY (user_id) REFERENCES `user` (`user_id`);
-
--- ---
--- Table Properties
--- ---
-
--- ALTER TABLE `user` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `note` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `session` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `user_log` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `role` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ---
--- Test Data
--- ---
-
--- INSERT INTO `user` (`user_id`,`username`,`password`,`email`,`firstname`,`lastname`,`status`) VALUES
--- ('','','','','','','');
--- INSERT INTO `note` (`note_id`,`note`,`user_id`,`date_added`,`date_modified`,`reminder`) VALUES
--- ('','','','','','');
--- INSERT INTO `session` (`id`,`user_id`,`token`) VALUES
--- ('','','');
--- INSERT INTO `user_log` (`id`,`user_id`,`user_activity`) VALUES
--- ('','','');
--- INSERT INTO `role` (`id`,`user_id`,`role`) VALUES
--- ('','','');
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="570" y="383" name="user">
+<row name="user_id" null="0" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="username" null="0" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>'NULL'</default></row>
+<row name="password" null="0" autoincrement="0">
+<datatype>VARCHAR(16)</datatype>
+<default>'NULL'</default></row>
+<row name="email" null="0" autoincrement="0">
+<datatype>INTEGER(350)</datatype>
+<default>NULL</default></row>
+<row name="firstname" null="0" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>'NULL'</default></row>
+<row name="lastname" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="status" null="0" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>user_id</part>
+</key>
+</table>
+<table x="807" y="527" name="note">
+<row name="note_id" null="0" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="note" null="1" autoincrement="0">
+<datatype>VARCHAR(1000)</datatype>
+<default>NULL</default></row>
+<row name="user_id" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user" row="user_id" />
+</row>
+<row name="date_added" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="date_modified" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="reminder" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>note_id</part>
+</key>
+</table>
+<table x="301" y="691" name="session">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="user_id" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user" row="user_id" />
+</row>
+<row name="token" null="0" autoincrement="0">
+<datatype>VARCHAR(256)</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="288" y="553" name="user_log">
+<row name="id" null="0" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="user_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user" row="user_id" />
+</row>
+<row name="user_activity" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="286" y="428" name="role">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="user_id" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user" row="user_id" />
+</row>
+<row name="role" null="0" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+</sql>
