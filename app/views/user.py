@@ -9,7 +9,7 @@ from app import db
 def signup():
     if not request.json:
         abort(400, "response should be a JSON object")
-    data = request.json
+    _data = request.json
     def _validate(request) -> bool:
         if "username" not in request:
             return False
@@ -22,14 +22,14 @@ def signup():
         if "lastname" not in request:
             return False
         return True
-    if not _validate(data):
+    if not _validate(_data):
         abort(400, "One or more fields required")
     
-    _username = data['username']
-    _password = hashlib.sha256(data['password'].encode()).hexdigest()
-    _email = data['email']
-    _firstname = data['firstname']
-    _lastname = data['lastname']
+    _username = _data['username']
+    _password = hashlib.sha256(_data['password'].encode()).hexdigest()
+    _email = _data['email']
+    _firstname = _data['firstname']
+    _lastname = _data['lastname']
 
     if User.query.filter_by(email=_email).first():
         abort(400, "Email is already registered")
@@ -55,30 +55,30 @@ def signup():
 def login():
     if not request.json:
         abort(400, "response should be a JSON object")
-    data = request.json
+    _data = request.json
     def _validate(request) -> bool:
         if 'username' not in request and 'email' not in request:
             return False
         if 'password' not in request:
             return False
         return True
-    if not _validate(data):
+    if not _validate(_data):
         abort(400, "one or more field is required")
 
-    _password = hashlib.sha256(data['password'].encode()).hexdigest()
+    _password = hashlib.sha256(_data['password'].encode()).hexdigest()
     def _validate_user(password) -> bool:
-        if 'username' in data:
+        if 'username' in _data:
             user = User.query.filter(
-                db.func.lower(User.username) == data['username'].lower()
+                db.func.lower(User.username) == _data['username'].lower()
                     ).first()
             if not user:
                 return False
             if user.password == password:
                 return True
             return False
-        if 'email' in data:
+        if 'email' in _data:
             user = User.query.filter(
-                db.func.lower(User.email) == data['email'].lower()
+                db.func.lower(User.email) == _data['email'].lower()
             ).first()
 
             if not user:

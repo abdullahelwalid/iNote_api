@@ -18,20 +18,20 @@ class Note(db.Model):
     )
     date_added = db.Column(
         db.DateTime,
-        nullable = False,
+        nullable = True,
         default = datetime.now()
     )
     date_modified = db.Column(
         db.DateTime,
-        nullable = False
+        nullable = True
     )
 
     reminder = db.Column(
         db.DateTime,
-        nullable = False
+        nullable = True
     )
 
-    db.relationship('User')
+    db.relationship('User', backref = 'note', lazy='dynamic')
 
     def json(self):
         return {
