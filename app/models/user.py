@@ -40,6 +40,7 @@ class User(db.Model):
         )
 
     role = db.relationship("Role", backref = "user")
+    user_log = db.relationship("User_log", backref = 'user')
 
     def json(self):
         return {

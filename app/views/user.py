@@ -1,8 +1,11 @@
 from flask import jsonify, abort, request
 import hashlib
+from flask_jwt_extended import create_access_token
+import datetime
 from app.views import bp
 from app.models.user import User
 from app.models.role import Role, Roles_enum
+from app.models.user_log import User_log
 from app import db
 
 @bp.route('/signup', methods=['POST'])
@@ -44,10 +47,11 @@ def signup():
         email = _email
     )
     role = Role(user_id = user.user_id, role = Roles_enum.user)
+    user_log = User_log(user_id = user.user_id, user_activity = "Account created")
     user.role.append(role)
+    user.user_log.append(user_log)
     db.session.add(user)
     db.session.commit()
-
     return jsonify(user.json()), 201
 
 
@@ -74,6 +78,9 @@ def login():
             if not user:
                 return False
             if user.password == password:
+                user_log = User_log(user_id = user.user_id, user_activity = "user logged in")
+                user.user_log.append(user_log)
+                db.session.commit()
                 return True
             return False
         if 'email' in _data:
@@ -84,9 +91,25 @@ def login():
             if not user:
                 return False
             if user.password == password:
+                user_log = User_log(user_id = user.user_id, user_activity = "user logged in")
+                user.user_log.append(user_log)
+                db.session.commit()
                 return True
             return False
     
     if not _validate_user(_password):
         abort(404, "user not found")
-    return jsonify("login successful"), 201
+
+    if "username" in _data:
+        _user = User.query.filter(
+            db.func.lower(User.username) == _data['username'].lower()
+            ).first()
+    else:
+        _user = User.query.filter(
+            db.func.lower(User.email) == _data['email'].lower()
+            ).first()
+    expires = datetime.timedelta(days=1)
+    access_token = create_access_token(identity=str(_user.user_id), expires_delta=expires)
+    return jsonify({
+        "token": access_token
+    }), 201

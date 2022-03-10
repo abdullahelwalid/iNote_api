@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db
 
 
@@ -15,6 +16,10 @@ class User_log(db.Model):
     user_activity = db.Column(
         db.String(256),
         nullable = False
+    ),
+    date_time = db.Column(
+        db.DateTime,
+        default = datetime.now()
     )
     
     def json(self):
